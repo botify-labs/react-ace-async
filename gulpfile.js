@@ -39,7 +39,7 @@ gulp.task('dist', ['clean:dist'], function(done) {
 });
 
 gulp.task('bump-version', function() {
-  return gulp.src(['package.json', 'bower.json'])
+  return gulp.src(['package.json'])
     .pipe(bump(argv))
     .pipe(gulp.dest('./'));
 });
@@ -47,7 +47,7 @@ gulp.task('bump-version', function() {
 gulp.task('release', ['dist', 'bump-version'], function() {
   return gulp.src('')
     .pipe(shell([
-      'git add -u', // Add modified files (package.json, bower.json, ...)
+      'git add -u', // Add modified files (package.json, ...)
       'git add -A dist/', // Add all changes in and dist
       'git commit -a -m "Release <%= pkg.version %>"',
       'git tag -a <%= pkg.version %> -m "Release <%= date %> <%= pkg.version %>"',

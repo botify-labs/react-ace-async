@@ -1,0 +1,25 @@
+[dim:pagetype]
+
+########################
+# HOME METABRAND
+########################
+
+@Home/Metabrand
+host www.tf1.fr
+path /
+
+@Home/Channels/TF1
+host www.tf1.fr
+path /tf1
+
+@Home/Channels/HD1
+host www.tf1.fr
+path /hd1
+
+@Home/Channels/TMC
+host www.tf1.fr
+path /tmc
+
+@Home/Channels/NT1
+host www.tf1.fr
+path /nt1

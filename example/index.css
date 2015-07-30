@@ -1,7 +1,12 @@
-.body {
+body {
   padding: 0;
   margin: 0;
-  font: 14px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+  font: 14px Helvetica, Arial, Helvetica, Geneva, sans-serif;
+  background: #DDD;
+}
+
+.AceEditor {
+  margin: 10px;
 }
 
 .AceEditor.AceEditor--loading {

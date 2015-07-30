@@ -1,18 +1,14 @@
 import React from 'react';
 
-import AceEditor from 'AceEditor';
+import { basic } from './editors/basic';
+import { customMode } from './editors/customMode';
+
 import './index.css';
 
 
-function onChange(newValue) {
-  console.log('change', newValue);
-}
-
 React.render(
-  <AceEditor
-    mode="javascript"
-    theme="github"
-    onChange={onChange}
-    name="UNIQUE_DIV_ID"
-  />
+  <div>
+    {basic}
+    {customMode}
+  </div>
 , document.getElementById('container'));

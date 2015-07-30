@@ -19,10 +19,8 @@ module.exports = function(build, grep) {
     plugins: [],
     module: {
       loaders: [
-        {
-          test: /\.css$/,
-          loader: 'style!css',
-        }
+        { test: /\.css$/, loader: 'style!css' },
+        { test: /\.txt$/, loader: 'raw' },
       ],
     },
   };
@@ -31,6 +29,8 @@ module.exports = function(build, grep) {
   case 'dev':
     config.devtool = 'eval';
     config.cache = true;
+    config.watch = true;
+    config.failOnError = false;
     config.entry = [
       'webpack-dev-server/client?http://localhost:3000',
       'webpack/hot/only-dev-server',

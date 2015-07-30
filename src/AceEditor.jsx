@@ -11,7 +11,7 @@ export default class AceEditor extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     className: PropTypes.string,
-    mode: PropTypes.string,
+    mode: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     theme: PropTypes.string,
     height: PropTypes.string,
     width: PropTypes.string,
@@ -63,35 +63,41 @@ export default class AceEditor extends React.Component {
     this.setState({
       isLoaded: true,
     });
+    let {id, mode, theme, fontSize, value, showGutter, maxLines, readOnly, highlightActiveLine, showPrintMargin} = this.props;
+    mode = typeof mode === 'string' ? 'ace/mode/' + mode : mode(window.ace.require);
 
-    this.editor = window.ace.edit(this.props.id);
-    this.editor.getSession().setMode('ace/mode/' + this.props.mode);
-    this.editor.setTheme('ace/theme/' + this.props.theme);
-    this.editor.setFontSize(this.props.fontSize);
+    this.editor = window.ace.edit(id);
+    this.editor.getSession().setMode(mode);
+    this.editor.setTheme('ace/theme/' + theme);
+    this.editor.setFontSize(fontSize);
     this.editor.on('change', ::this.onChange);
-    this.editor.setValue(this.props.value, 1);
-    this.editor.renderer.setShowGutter(this.props.showGutter);
-    this.editor.setOption('maxLines', this.props.maxLines);
-    this.editor.setOption('readOnly', this.props.readOnly);
-    this.editor.setOption('highlightActiveLine', this.props.highlightActiveLine);
-    this.editor.setShowPrintMargin(this.props.showPrintMargin);
+    this.editor.setValue(value, 1);
+    this.editor.renderer.setShowGutter(showGutter);
+    this.editor.setOption('maxLines', maxLines);
+    this.editor.setOption('readOnly', readOnly);
+    this.editor.setOption('highlightActiveLine', highlightActiveLine);
+    this.editor.setShowPrintMargin(showPrintMargin);
   }
 
   componentWillReceiveProps(nextProps) {
     if (!this.state.isLoaded) {
       return;
     }
-    this.editor.getSession().setMode('ace/mode/' + nextProps.mode);
-    this.editor.setTheme('ace/theme/' + nextProps.theme);
-    this.editor.setFontSize(nextProps.fontSize);
-    this.editor.setOption('maxLines', nextProps.maxLines);
-    this.editor.setOption('readOnly', nextProps.readOnly);
-    this.editor.setOption('highlightActiveLine', nextProps.highlightActiveLine);
-    this.editor.setShowPrintMargin(nextProps.showPrintMargin);
-    if (this.editor.getValue() !== nextProps.value) {
-      this.editor.setValue(nextProps.value, 1);
+
+    let {mode, theme, fontSize, value, showGutter, maxLines, readOnly, highlightActiveLine, showPrintMargin} = nextProps;
+    mode = typeof mode === 'string' ? 'ace/mode/' + mode : mode(window.ace.require);
+
+    this.editor.getSession().setMode('ace/mode/' + mode);
+    this.editor.setTheme('ace/theme/' + theme);
+    this.editor.setFontSize(fontSize);
+    this.editor.setOption('maxLines', maxLines);
+    this.editor.setOption('readOnly', readOnly);
+    this.editor.setOption('highlightActiveLine', highlightActiveLine);
+    this.editor.setShowPrintMargin(showPrintMargin);
+    if (this.editor.getValue() !== value) {
+      this.editor.setValue(value, 1);
     }
-    this.editor.renderer.setShowGutter(nextProps.showGutter);
+    this.editor.renderer.setShowGutter(showGutter);
   }
 
   render() {

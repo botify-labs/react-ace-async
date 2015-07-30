@@ -1,14 +1,28 @@
 import React from 'react';
 
-import { basic } from './editors/basic';
-import { customMode } from './editors/customMode';
-
+import AceEditor from 'AceEditor';
+import rules from './mocks/mock1.txt';
+import botifySegmentationMode from './modes/botifySegmentation';
 import './index.css';
 
 
+function onChange(newValue) {
+  console.log('change', newValue);
+}
+
 React.render(
   <div>
-    {basic}
-    {customMode}
+    <AceEditor
+      id="basic"
+      mode="javascript"
+      theme="github"
+      onChange={onChange}
+    />
+    <AceEditor
+      id="custom-mode"
+      mode={botifySegmentationMode}
+      theme="monokai"
+      value={rules}
+    />
   </div>
 , document.getElementById('container'));

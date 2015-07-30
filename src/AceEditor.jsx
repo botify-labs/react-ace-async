@@ -44,7 +44,7 @@ export default class AceEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loader: false,
+      isLoaded: false,
     };
   }
 
@@ -60,6 +60,10 @@ export default class AceEditor extends React.Component {
   }
 
   initAceEditor() {
+    this.setState({
+      isLoaded: true,
+    });
+
     this.editor = window.ace.edit(this.props.id);
     this.editor.getSession().setMode('ace/mode/' + this.props.mode);
     this.editor.setTheme('ace/theme/' + this.props.theme);
@@ -71,14 +75,10 @@ export default class AceEditor extends React.Component {
     this.editor.setOption('readOnly', this.props.readOnly);
     this.editor.setOption('highlightActiveLine', this.props.highlightActiveLine);
     this.editor.setShowPrintMargin(this.props.showPrintMargin);
-
-    this.setState({
-      loaded: true,
-    });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.state.loaded) {
+    if (!this.state.isLoaded) {
       return;
     }
     this.editor.getSession().setMode('ace/mode/' + nextProps.mode);

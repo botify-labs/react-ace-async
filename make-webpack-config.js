@@ -1,19 +1,20 @@
 var webpack = require('webpack');
 var path = require('path');
 
-function resolve(filePath) {
-  return path.resolve(__dirname, filePath);
+function resolve() {
+  var args = Array.prototype.slice.apply(arguments);
+  return path.resolve.apply(path, [__dirname].concat(args));
 }
 
 module.exports = function(build, grep) {
-  var npmPath = path.resolve(__dirname, 'node_modules');
-
-  var jsxExcludes = [/node_modules/];
+  var srcPath = resolve('./src');
+  var examplePath = resolve('./example');
+  var npmPath = resolve('./node_modules');
 
   var config = {
     resolve: {
       extensions: ['', '.js', '.jsx'],
-      root: [path.resolve(__dirname, 'bower_components')],
+      root: [srcPath, npmPath],
     },
     plugins: [],
     module: {
@@ -42,7 +43,7 @@ module.exports = function(build, grep) {
     config.module.loaders.push({
       test: /\.jsx?$/,
       loaders: ['react-hot-loader', 'babel-loader?stage=0', 'eslint-loader'],
-      exclude: jsxExcludes,
+      include: [srcPath, examplePath],
     });
     break;
   case 'dist':
@@ -62,7 +63,7 @@ module.exports = function(build, grep) {
     config.module.loaders.push({
       test: /\.jsx?$/,
       loaders: ['babel-loader?stage=0'],
-      exclude: jsxExcludes,
+      include: [srcPath],
     });
     break;
   }

@@ -1,0 +1,11 @@
+.body {
+  padding: 0;
+  margin: 0;
+  font: 14px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+}
+
+.AceEditor.AceEditor--loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

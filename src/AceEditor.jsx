@@ -10,6 +10,7 @@ export default class AceEditor extends React.Component {
 
   static propTypes = {
     id: PropTypes.string,
+    className: PropTypes.string,
     mode: PropTypes.string,
     theme: PropTypes.string,
     height: PropTypes.string,
@@ -99,12 +100,15 @@ export default class AceEditor extends React.Component {
         id={this.props.id}
         className={cx(
           'AceEditor',
-          !this.state.isLoaded && 'AceEditor--loading'
+          !this.state.isLoaded && 'AceEditor--loading',
+          this.props.className,
         )}
         style={{
           width: this.props.width,
           height: this.props.height,
-        }}>
+        }}
+      >
+        Loading ...
       </div>
     );
   }

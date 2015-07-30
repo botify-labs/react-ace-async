@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AceEditor from 'AceEditor';
+import './index.css';
 
 
 function onChange(newValue) {

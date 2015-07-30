@@ -19,6 +19,7 @@
     "babel-eslint": "^4.0.5",
     "babel-loader": "^5.0.0",
     "chalk": "^1.0.0",
+    "css-loader": "^0.15.6",
     "del": "^1.1.1",
     "eslint": "^0.24.1",
     "eslint-loader": "^0.14.2",
@@ -30,6 +31,7 @@
     "imports-loader": "^0.6.4",
     "react-hot-loader": "^1.1.5",
     "strftime": "^0.8.2",
+    "style-loader": "^0.12.3",
     "webpack": "^1.5.3",
     "webpack-dev-server": "^1.7.0",
     "yargs": "^3.5.3"

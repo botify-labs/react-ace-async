@@ -18,7 +18,12 @@ module.exports = function(build, grep) {
     },
     plugins: [],
     module: {
-      loaders: [],
+      loaders: [
+        {
+          test: /\.css$/,
+          loader: 'style!css',
+        }
+      ],
     },
   };
 

@@ -59,15 +59,25 @@ export default class AceEditor extends React.Component {
     load(::this.initAceEditor);
   }
 
+  initMode(mode) {
+    if (typeof mode === 'string') {
+      return 'ace/mode/' + mode;
+    }
+    if (typeof mode === 'function') {
+      let Mode = mode(window.ace.require);
+      return new Mode();
+    }
+    throw new Error('Unsupported mode type');
+  }
+
   initAceEditor() {
     this.setState({
       isLoaded: true,
     });
     let {id, mode, theme, fontSize, value, showGutter, maxLines, readOnly, highlightActiveLine, showPrintMargin} = this.props;
-    mode = typeof mode === 'string' ? 'ace/mode/' + mode : mode(window.ace.require);
 
     this.editor = window.ace.edit(id);
-    this.editor.getSession().setMode(mode);
+    this.editor.getSession().setMode(this.initMode(mode));
     this.editor.setTheme('ace/theme/' + theme);
     this.editor.setFontSize(fontSize);
     this.editor.on('change', ::this.onChange);
@@ -85,9 +95,8 @@ export default class AceEditor extends React.Component {
     }
 
     let {mode, theme, fontSize, value, showGutter, maxLines, readOnly, highlightActiveLine, showPrintMargin} = nextProps;
-    mode = typeof mode === 'string' ? 'ace/mode/' + mode : mode(window.ace.require);
 
-    this.editor.getSession().setMode('ace/mode/' + mode);
+    this.editor.getSession().setMode(this.initMode(mode));
     this.editor.setTheme('ace/theme/' + theme);
     this.editor.setFontSize(fontSize);
     this.editor.setOption('maxLines', maxLines);

@@ -1,11 +1,10 @@
 export default function(aceRequire) {
-  const oop = aceRequire('ace/lib/oop');
   const TextHighlightRules = aceRequire('ace/mode/text_highlight_rules').TextHighlightRules;
 
 
-  const BotifySegmentationRules = function() {
+  class BotifySegmentationRules extends TextHighlightRules {
 
-    this.$rules = {
+    $rules = {
       start: [
         {
           token: 'comment',
@@ -82,8 +81,7 @@ export default function(aceRequire) {
         },
       ],
     };
-  };
-  oop.inherits(BotifySegmentationRules, TextHighlightRules);
+  }
 
   return BotifySegmentationRules;
 }

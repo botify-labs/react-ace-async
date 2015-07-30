@@ -1,7 +1,7 @@
 {
-  "name": "react-ace",
+  "name": "react-ace-async",
   "version": "0.0.1",
-  "description": "React Ace",
+  "description": "A react component for Ace 1.2.0",
   "author": "Nicolas Fortin <nicolas.fortin@gmail.com>",
   "scripts": {
     "start": "gulp server"
@@ -9,7 +9,7 @@
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/zallek/react-ace.git"
+    "url": "git://github.com/zallek/react-ace-async.git"
   },
   "dependencies": {
     "classnames": "^2.1.3"

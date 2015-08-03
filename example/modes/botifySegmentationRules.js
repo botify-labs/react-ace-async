@@ -2,6 +2,38 @@ export default function(aceRequire) {
   const TextHighlightRules = aceRequire('ace/mode/text_highlight_rules').TextHighlightRules;
 
 
+  let segmentation = {
+    token: ['punctuation.operator', 'storage.type', 'keyword.operator', 'variable', 'punctuation.operator'],
+    regex: /^(\[)(.+)(:)(.+)(\])$/,
+    next: 'segmentationDef',
+  };
+
+  let segmentName = {
+    token: ['storage.type', 'variable'],
+    regex: /^(@)(.+)$/,
+    next: 'segmentDef',
+  };
+
+  let segmentDefValue = {
+    token: ['keyword', 'text', 'string'],
+    regex: /^(.+)(\s)(.+)$/,
+  };
+
+  let segmentDefValueModified = {
+    token: ['keyword', 'text', 'support.function', 'string'],
+    regex: /^(.+)(\s)(.+:)(.+)$/,
+  };
+
+  let segmentDefModifierAndValue = {
+    token: ['keyword', 'text', 'support.function', 'text', 'string'],
+    regex: /^(.+)(\s)(.+)(\s)(.+)$/,
+  };
+
+  let segmentDefModifierAndValueModified = {
+    token: ['keyword', 'text', 'support.function', 'text', 'support.function', 'string'],
+    regex: /^(.+)(\s)(.+)(\s)(.+:)(.+)$/,
+  };
+
   class BotifySegmentationRules extends TextHighlightRules {
 
     $rules = {
@@ -16,11 +48,7 @@ export default function(aceRequire) {
           regex: '\\s+|^$',
           next: 'start',
         },
-        {
-          token: ['punctuation.operator', 'storage.type', 'keyword.operator', 'variable', 'punctuation.operator'],
-          regex: /^(\[)(dim|segmentation)(:)([a-zA-Z]+)(\])$/,
-          next: 'segmentationDef',
-        },
+        segmentation,
       ],
       globalComment: [
         {
@@ -34,21 +62,13 @@ export default function(aceRequire) {
         },
       ],
       segmentationDef: [
-        {
-          token: ['storage.type', 'variable'],
-          regex: /^(@)([a-zA-z0-9\/]+)$/,
-          next: 'segmentDef',
-        },
+        segmentName,
         {
           token: 'comment',
           regex: '#',
           next: 'segmentationComment',
         },
-        {
-          token: ['punctuation.operator', 'storage.type', 'keyword.operator', 'variable', 'punctuation.operator'],
-          regex: /^(\[)(dim|segmentation)(:)([a-zA-Z]+)(\])$/,
-          next: 'segmentationDef',
-        },
+        segmentation,
       ],
       segmentationComment: [
         {
@@ -62,18 +82,10 @@ export default function(aceRequire) {
         },
       ],
       segmentDef: [
-        {
-          token: ['keyword', 'text', 'string'],
-          regex: /^(host)(\s)([a-zA-z0-9\.]+)$/,
-        },
-        {
-          token: ['keyword', 'text', 'string.regexp'],
-          regex: /^(path)(\s)([a-zA-z0-9\/\-\*]+)$/,
-        },
-        {
-          token: ['keyword', 'text', 'string.regexp'],
-          regex: /^(query)(\s)([a-zA-z0-9\/]+)$/,
-        },
+        segmentDefModifierAndValueModified,
+        segmentDefModifierAndValue,
+        segmentDefValueModified,
+        segmentDefValue,
         {
           token: 'empty',
           regex: '^$',

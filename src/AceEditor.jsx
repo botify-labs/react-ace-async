@@ -11,35 +11,28 @@ export default class AceEditor extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     className: PropTypes.string,
+    style: PropTypes.object,
     mode: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     theme: PropTypes.string,
-    style: PropTypes.object,
     value: PropTypes.string,
     fontSize: PropTypes.number,
     showGutter: PropTypes.bool,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func, //Called with (value: String, editor: )
     maxLines: PropTypes.number,
     readOnly: PropTypes.bool,
-    highlightActiveLine: PropTypes.bool,
-    showPrintMargin: PropTypes.bool,
   };
 
   static defaultProps = {
     id: 'ace-editor',
+    style: {},
     mode: '',
     theme: '',
-    style: {
-      height: '500px',
-      width: '500px',
-    },
     value: '',
     fontSize: 12,
     showGutter: true,
     onChange: null,
     maxLines: null,
     readOnly: false,
-    highlightActiveLine: true,
-    showPrintMargin: true,
   };
 
   constructor(props) {
@@ -52,7 +45,7 @@ export default class AceEditor extends React.Component {
   onChange() {
     let value = this.editor.getValue();
     if (this.props.onChange) {
-      this.props.onChange(value);
+      this.props.onChange(value, this.editor);
     }
   }
 
@@ -75,7 +68,7 @@ export default class AceEditor extends React.Component {
     this.setState({
       isLoaded: true,
     });
-    let {id, mode, theme, fontSize, value, showGutter, maxLines, readOnly, highlightActiveLine, showPrintMargin} = this.props;
+    let {id, mode, theme, fontSize, value, showGutter, maxLines, readOnly} = this.props;
 
     this.editor = window.ace.edit(id);
     this.editor.getSession().setMode(this.initMode(mode));
@@ -86,8 +79,8 @@ export default class AceEditor extends React.Component {
     this.editor.renderer.setShowGutter(showGutter);
     this.editor.setOption('maxLines', maxLines);
     this.editor.setOption('readOnly', readOnly);
-    this.editor.setOption('highlightActiveLine', highlightActiveLine);
-    this.editor.setShowPrintMargin(showPrintMargin);
+    this.editor.setOption('highlightActiveLine', true);
+    this.editor.setShowPrintMargin(false);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,15 +88,13 @@ export default class AceEditor extends React.Component {
       return;
     }
 
-    let {mode, theme, fontSize, value, showGutter, maxLines, readOnly, highlightActiveLine, showPrintMargin} = nextProps;
+    let {mode, theme, fontSize, value, showGutter, maxLines, readOnly} = nextProps;
 
     this.editor.getSession().setMode(this.initMode(mode));
     this.editor.setTheme('ace/theme/' + theme);
     this.editor.setFontSize(fontSize);
     this.editor.setOption('maxLines', maxLines);
     this.editor.setOption('readOnly', readOnly);
-    this.editor.setOption('highlightActiveLine', highlightActiveLine);
-    this.editor.setShowPrintMargin(showPrintMargin);
     if (this.editor.getValue() !== value) {
       this.editor.setValue(value, 1);
     }

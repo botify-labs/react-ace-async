@@ -6,23 +6,17 @@ import botifySegmentationMode from './modes/botifySegmentation';
 import './index.css';
 
 
-function onChange(newValue) {
-  console.log('change', newValue);
-}
-
 React.render(
   <div>
-    <AceEditor
-      id="basic"
-      mode="javascript"
-      theme="github"
-      onChange={onChange}
-    />
     <AceEditor
       id="custom-mode"
       mode={botifySegmentationMode}
       theme="monokai"
       value={rules}
+      style={{
+        width: 500,
+        height: 500,
+      }}
     />
   </div>
 , document.getElementById('container'));

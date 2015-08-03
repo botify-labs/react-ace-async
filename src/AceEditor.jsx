@@ -90,15 +90,31 @@ export default class AceEditor extends React.Component {
 
     let {mode, theme, fontSize, value, showGutter, maxLines, readOnly} = nextProps;
 
-    this.editor.getSession().setMode(this.initMode(mode));
-    this.editor.setTheme('ace/theme/' + theme);
-    this.editor.setFontSize(fontSize);
-    this.editor.setOption('maxLines', maxLines);
-    this.editor.setOption('readOnly', readOnly);
+    if (this.props.mode !== mode) {
+      this.editor.getSession().setMode(this.initMode(mode));
+    }
+    if (this.props.theme !== theme) {
+      this.editor.setTheme('ace/theme/' + theme);
+    }
+    if (this.props.fontSize !== fontSize) {
+      this.editor.setFontSize(fontSize);
+    }
+    if (this.props.maxLines !== maxLines) {
+      this.editor.setOption('maxLines', maxLines);
+    }
+    if (this.props.readOnly !== readOnly) {
+      this.editor.setOption('readOnly', readOnly);
+    }
+    if (this.props.showGutter !== showGutter) {
+      this.editor.renderer.setShowGutter(showGutter);
+    }
     if (this.editor.getValue() !== value) {
       this.editor.setValue(value, 1);
     }
-    this.editor.renderer.setShowGutter(showGutter);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.isLoaded !== nextState.isLoaded;
   }
 
   render() {

@@ -15,6 +15,13 @@ export default class AceEditor extends React.Component {
     mode: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     theme: PropTypes.string,
     value: PropTypes.string,
+    annotations: PropTypes.arrayOf(PropTypes.shape({
+      row: PropTypes.number.isRequired,
+      column: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(['info', 'warning', 'error']).isRequired,
+      raw: PropTypes.string,
+    })),
     fontSize: PropTypes.number,
     showGutter: PropTypes.bool,
     onChange: PropTypes.func, //Called with (value: String, editor: )
@@ -28,6 +35,7 @@ export default class AceEditor extends React.Component {
     mode: '',
     theme: '',
     value: '',
+    annotations: [],
     fontSize: 12,
     showGutter: true,
     onChange: null,
@@ -68,13 +76,15 @@ export default class AceEditor extends React.Component {
     this.setState({
       isLoaded: true,
     });
-    let {id, mode, theme, fontSize, value, showGutter, maxLines, readOnly} = this.props;
+    let {id, mode, theme, fontSize, value, annotations, showGutter, maxLines, readOnly} = this.props;
 
     this.editor = window.ace.edit(id);
+    this.editor.$blockScrolling = Infinity;
     this.editor.getSession().setMode(this.initMode(mode));
     this.editor.setTheme('ace/theme/' + theme);
     this.editor.setFontSize(fontSize);
     this.editor.on('change', ::this.onChange);
+    this.editor.getSession().setAnnotations(annotations);
     this.editor.setValue(value, 1);
     this.editor.renderer.setShowGutter(showGutter);
     this.editor.setOption('maxLines', maxLines);
@@ -88,7 +98,7 @@ export default class AceEditor extends React.Component {
       return;
     }
 
-    let {mode, theme, fontSize, value, showGutter, maxLines, readOnly} = nextProps;
+    let {mode, theme, fontSize, value, annotations, showGutter, maxLines, readOnly} = nextProps;
 
     if (this.props.mode !== mode) {
       this.editor.getSession().setMode(this.initMode(mode));
@@ -108,13 +118,18 @@ export default class AceEditor extends React.Component {
     if (this.props.showGutter !== showGutter) {
       this.editor.renderer.setShowGutter(showGutter);
     }
+    if (this.props.annotations !== annotations) {
+      this.editor.getSession().setAnnotations(annotations);
+    }
     if (this.editor.getValue() !== value) {
       this.editor.setValue(value, 1);
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.state.isLoaded !== nextState.isLoaded;
+    return this.state.isLoaded !== nextState.isLoaded
+      || this.props.className !== nextProps.className
+      || this.props.style !== nextProps.style;
   }
 
   render() {

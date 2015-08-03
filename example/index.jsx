@@ -6,17 +6,29 @@ import botifySegmentationMode from './modes/botifySegmentation';
 import './index.css';
 
 
-React.render(
-  <div>
-    <AceEditor
-      id="custom-mode"
-      mode={botifySegmentationMode}
-      theme="monokai"
-      value={rules}
-      style={{
-        width: 500,
-        height: 500,
-      }}
-    />
-  </div>
-, document.getElementById('container'));
+let render = (value) => {
+  let firstLine = value.split('\n')[0];
+  let annotations = firstLine === '' ? [{
+    row: 0,
+    column: 0,
+    text: 'First line can not be empty',
+    type: 'error',
+    raw: 'EmptyError',
+  }] : null;
+
+  React.render(
+     <AceEditor
+        id="custom-mode"
+        mode={botifySegmentationMode}
+        theme="monokai"
+        value={value}
+        onChange={render}
+        style={{
+          width: 500,
+          height: 500,
+        }}
+        annotations={annotations}
+      />
+  , document.getElementById('container'));
+};
+render(rules);

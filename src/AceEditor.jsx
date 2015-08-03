@@ -13,8 +13,7 @@ export default class AceEditor extends React.Component {
     className: PropTypes.string,
     mode: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     theme: PropTypes.string,
-    height: PropTypes.string,
-    width: PropTypes.string,
+    style: PropTypes.object,
     value: PropTypes.string,
     fontSize: PropTypes.number,
     showGutter: PropTypes.bool,
@@ -29,8 +28,10 @@ export default class AceEditor extends React.Component {
     id: 'ace-editor',
     mode: '',
     theme: '',
-    height: '500px',
-    width: '500px',
+    style: {
+      height: '500px',
+      width: '500px',
+    },
     value: '',
     fontSize: 12,
     showGutter: true,
@@ -118,10 +119,7 @@ export default class AceEditor extends React.Component {
           !this.state.isLoaded && 'AceEditor--loading',
           this.props.className,
         )}
-        style={{
-          width: this.props.width,
-          height: this.props.height,
-        }}
+        style={this.props.style}
       >
         Loading ...
       </div>

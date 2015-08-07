@@ -84,8 +84,8 @@ export default class AceEditor extends React.Component {
     this.editor.setTheme('ace/theme/' + theme);
     this.editor.setFontSize(fontSize);
     this.editor.getSession().setAnnotations(annotations);
-    this.editor.setValue(value, 1);
     this.editor.on('change', ::this.onChange);
+    this.editor.setValue(value, 1);
     this.editor.renderer.setShowGutter(showGutter);
     this.editor.setOption('maxLines', maxLines);
     this.editor.setOption('readOnly', readOnly);
@@ -133,17 +133,21 @@ export default class AceEditor extends React.Component {
   }
 
   render() {
+    if (!this.state.isLoaded) {
+      return (
+        <div
+          className={cx('AceEditor', 'AceEditor--loading', this.props.className )}
+          style={this.props.style}
+        >
+          Loading ...
+        </div>
+      );
+    }
     return (
       <div
-        id={this.props.id}
-        className={cx(
-          'AceEditor',
-          !this.state.isLoaded && 'AceEditor--loading',
-          this.props.className,
-        )}
+        id={this.props.id} className={cx('AceEditor', this.props.className )}
         style={this.props.style}
       >
-        Loading ...
       </div>
     );
   }

@@ -83,9 +83,9 @@ export default class AceEditor extends React.Component {
     this.editor.getSession().setMode(this.initMode(mode));
     this.editor.setTheme('ace/theme/' + theme);
     this.editor.setFontSize(fontSize);
-    this.editor.on('change', ::this.onChange);
     this.editor.getSession().setAnnotations(annotations);
     this.editor.setValue(value, 1);
+    this.editor.on('change', ::this.onChange);
     this.editor.renderer.setShowGutter(showGutter);
     this.editor.setOption('maxLines', maxLines);
     this.editor.setOption('readOnly', readOnly);

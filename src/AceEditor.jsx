@@ -17,7 +17,7 @@ export default class AceEditor extends React.Component {
     value: PropTypes.string,
     annotations: PropTypes.arrayOf(PropTypes.shape({
       row: PropTypes.number.isRequired,
-      column: PropTypes.number.isRequired,
+      column: PropTypes.number,
       text: PropTypes.string.isRequired,
       type: PropTypes.oneOf(['info', 'warning', 'error']).isRequired,
       raw: PropTypes.string,
@@ -76,7 +76,7 @@ export default class AceEditor extends React.Component {
     this.setState({
       isLoaded: true,
     });
-    let {id, mode, theme, fontSize, value, annotations, showGutter, maxLines, readOnly} = this.props;
+    let {id, mode, theme, fontSize, annotations, showGutter, maxLines, readOnly} = this.props;
 
     this.editor = window.ace.edit(id);
     this.editor.$blockScrolling = Infinity;
@@ -85,7 +85,6 @@ export default class AceEditor extends React.Component {
     this.editor.setFontSize(fontSize);
     this.editor.getSession().setAnnotations(annotations);
     this.editor.on('change', ::this.onChange);
-    this.editor.setValue(value, 1);
     this.editor.renderer.setShowGutter(showGutter);
     this.editor.setOption('maxLines', maxLines);
     this.editor.setOption('readOnly', readOnly);
@@ -127,17 +126,17 @@ export default class AceEditor extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.state.isLoaded !== nextState.isLoaded
-      || this.props.className !== nextProps.className
-      || this.props.style !== nextProps.style;
+    return this.state.isLoaded !== nextState.isLoaded;
   }
 
   render() {
-    if (!this.state.isLoaded) {
+    let {id, className, style, value} = this.props;
+    let {isLoaded} = this.state;
+    if (!isLoaded) {
       return (
         <div
-          className={cx('AceEditor', 'AceEditor--loading', this.props.className )}
-          style={this.props.style}
+          className={cx('AceEditor', 'AceEditor--loading', className )}
+          style={style}
         >
           Loading ...
         </div>
@@ -145,9 +144,10 @@ export default class AceEditor extends React.Component {
     }
     return (
       <div
-        id={this.props.id} className={cx('AceEditor', this.props.className )}
-        style={this.props.style}
+        id={id} className={cx('AceEditor', className )}
+        style={style}
       >
+       {value}
       </div>
     );
   }

@@ -57,10 +57,6 @@ export default class AceEditor extends React.Component {
     }
   }
 
-  componentDidMount() {
-    load(::this.initAceEditor);
-  }
-
   initMode(mode) {
     if (typeof mode === 'string') {
       return 'ace/mode/' + mode;
@@ -73,9 +69,6 @@ export default class AceEditor extends React.Component {
   }
 
   initAceEditor() {
-    this.setState({
-      isLoaded: true,
-    });
     let {id, mode, theme, fontSize, annotations, showGutter, maxLines, readOnly} = this.props;
 
     this.editor = window.ace.edit(id);
@@ -90,6 +83,28 @@ export default class AceEditor extends React.Component {
     this.editor.setOption('readOnly', readOnly);
     this.editor.setOption('highlightActiveLine', true);
     this.editor.setShowPrintMargin(false);
+  }
+
+  componentWillMount() {
+    load(() => {
+      this.setState({
+        isLoaded: true,
+      });
+    });
+  }
+
+  componentDidMount() {
+    //Init AceEditor at first rendering
+    if (this.state.isLoaded) {
+      this.initAceEditor();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    //Init AceEditor lately if it needed to be loaded
+    if (this.state.isLoaded && !prevState.isLoaded) {
+      this.initAceEditor();
+    }
   }
 
   componentWillReceiveProps(nextProps) {

@@ -26,6 +26,7 @@ export default class AceEditor extends React.Component {
     showGutter: PropTypes.bool,
     onChange: PropTypes.func, //Called with (value: String, editor: )
     maxLines: PropTypes.number,
+    tabSize: PropTypes.tabSize,
     readOnly: PropTypes.bool,
   };
 
@@ -37,6 +38,7 @@ export default class AceEditor extends React.Component {
     value: '',
     annotations: [],
     fontSize: 12,
+    tabSize: 4,
     showGutter: true,
     onChange: null,
     maxLines: null,
@@ -69,7 +71,7 @@ export default class AceEditor extends React.Component {
   }
 
   initAceEditor() {
-    let {id, mode, theme, fontSize, annotations, showGutter, maxLines, readOnly} = this.props;
+    let {id, mode, theme, fontSize, annotations, showGutter, maxLines, readOnly, tabSize} = this.props;
 
     this.editor = window.ace.edit(id);
     this.editor.$blockScrolling = Infinity;
@@ -81,6 +83,7 @@ export default class AceEditor extends React.Component {
     this.editor.renderer.setShowGutter(showGutter);
     this.editor.setOption('maxLines', maxLines);
     this.editor.setOption('readOnly', readOnly);
+    this.editor.setOption('tabSize', tabSize);
     this.editor.setOption('highlightActiveLine', true);
     this.editor.setShowPrintMargin(false);
   }

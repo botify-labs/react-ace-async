@@ -26,7 +26,7 @@ export default class AceEditor extends React.Component {
     showGutter: PropTypes.bool,
     onChange: PropTypes.func, //Called with (value: String, editor: )
     maxLines: PropTypes.number,
-    tabSize: PropTypes.tabSize,
+    tabSize: PropTypes.number,
     readOnly: PropTypes.bool,
   };
 

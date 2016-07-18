@@ -50,6 +50,8 @@ export default class AceEditor extends React.Component {
     this.state = {
       isLoaded: false,
     };
+
+    this.onChange = this.onChange.bind(this);
   }
 
   onChange() {
@@ -79,7 +81,7 @@ export default class AceEditor extends React.Component {
     this.editor.setTheme('ace/theme/' + theme);
     this.editor.setFontSize(fontSize);
     this.editor.getSession().setAnnotations(annotations);
-    this.editor.on('change', ::this.onChange);
+    this.editor.on('change', this.onChange);
     this.editor.renderer.setShowGutter(showGutter);
     this.editor.setOption('maxLines', maxLines);
     this.editor.setOption('readOnly', readOnly);

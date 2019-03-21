@@ -9,12 +9,14 @@
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/zallek/react-ace-async.git"
+    "url": "git://github.com/botify-labs/react-ace-async.git"
   },
   "dependencies": {
     "classnames": "^2.2.0",
-    "prop-types": "^15.6.0",
-    "react": "^15.6.2"
+    "prop-types": "^15.6.0"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
     "babel-core": "^5.1.11",

@@ -1,1 +1,1 @@
-export const ACE_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js';
+export const ACE_CDN = 'https://cdn.jsdelivr.net/npm/ace-builds@1.2.2/src-noconflict/ace.js';

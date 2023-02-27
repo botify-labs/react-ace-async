@@ -37,8 +37,8 @@
     "react-hot-loader": "^1.1.5",
     "strftime": "^0.8.2",
     "style-loader": "^0.12.3",
-    "webpack": "^1.5.3",
-    "webpack-dev-server": "^1.7.0",
+    "webpack": "^1.15.0",
+    "webpack-dev-server": "^4.11.1",
     "yargs": "^3.5.3"
   }
 }
